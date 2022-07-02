@@ -1,0 +1,45 @@
+ok so I have the function that finds the command. that function 
+should return an error if the access returns the error
+
+then I need to save the flags and the path - and put it in the execve
+
+but before that, I need to pipe, fork, close read and write properly. 
+still don't know what dup2 does - sth for the id's
+
+and then I gotta make the function that frees everything and I guess that would be it...
+on Monday I could evaluate ;))>>
+
+omg! I could make variadic function for freeing and pass to it all the ptr to free...
+but how did that work?
+
+pointer being freed was not allocated
+is happening when I'm giving it the command that
+doesn't exist
+because then I'm freeing the stuff that was in the loop twice
+so idk???? ahaha
+why is it only happening when the command is invalid?
+
+lol so it's either working and leaking or not working bc I'm freein too much
+
+ok so what's happening - the program exits the first time it doesnt find the path
+which is so wrong XD
+I need another way to know that I didn't find the command...
+I could free and return already there
+and that might also fix my memleak
+
+ok, fixed that - I was calling split twice and not freeing
+and then I wasnt freeing the char **
+heh
+and now it's all working, and I'm not freeing any ptr that was not allocated
+
+argv[0] = "./pipex"
+argv[1] = infile
+argv[2] = cmd1 and flags
+argv[3] = cmd2 and flags
+argv[4] = outfile
+
+TODO's
+- perror
+- exit
+- dup2
+- error codes?

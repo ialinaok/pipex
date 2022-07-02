@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <stdarg.h>
 
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 int		count_strings(const char *s, char c);
@@ -88,6 +90,7 @@ char	**get_cmd_path(char *argv, char **envp)
 	char	**cmd;
 	char	**paths;
 	char	*cmd_and_path;
+	char	*add_slash;
 	int		i;
 
 	i = 0;
@@ -103,18 +106,49 @@ char	**get_cmd_path(char *argv, char **envp)
 	i = 0;
 	while (paths[i] != NULL)
 	{
-		cmd_and_path = ft_strjoin(paths[i], cmd[0]); // add slash
-
+		add_slash = ft_strjoin(paths[i], "/");
+		cmd_and_path = ft_strjoin(add_slash, cmd[0]);
+		if (access(cmd_and_path, X_OK) == 0) // zero on success, -1 on error
+			break ;
+		i++;
+		free(add_slash);
+		free(cmd_and_path);
 	}
+	printf("the path: %s\n", cmd_and_path);
+	free(cmd_and_path);
+	int f;
+	for (f = 0; cmd[f] != NULL; f++)
+		free(cmd[f]);
+	free(cmd[f]);
+	free(add_slash);
+	free(cmd_and_path);
 	return (paths);
 }
 
-int main(int argc, char **argv, char **envp)
-{
-	char	**path;
+// int main(int argc, char **argv, char **envp)
+// {
+// 	char	**path;
 
-	path = get_cmd_path(argv[1], envp);
-	for (int i = 0; path[i] != NULL; i++)
-		printf("path--->%s\n", path[i]);
-	return (0);
+// 	path = get_cmd_path(argv[1], envp);
+// 	// for (int i = 0; path[i] != NULL; i++)
+// 	// 	printf("path--->%s\n", path[i]);
+// 	int i;
+// 	for (i = 0; path[i] != NULL; i++)
+// 		free(path[i]);
+// 	free(path[i]);
+// 	free(path);
+// 	return (0);
+// }
+
+int main(void)
+{
+	char **spliiit = ft_split("fds vs dasdas fsad", ' ');
+	int i = 0;
+	while (spliiit[i] != NULL)
+	{
+		printf("%s\n", spliiit[i]);
+		free(spliiit[i]);
+		i++;
+	}
+	free(spliiit);
 }

@@ -3,18 +3,20 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: apielasz <apielasz@student.42.fr>          +#+  +:+       +#+         #
+#    By: ialinaok <ialinaok@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/30 16:09:41 by apielasz          #+#    #+#              #
-#    Updated: 2022/06/30 18:46:19 by apielasz         ###   ########.fr        #
+#    Updated: 2022/07/02 22:49:22 by ialinaok         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = pipex
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra #-Werror
 SRCS = pipex.c \
-		utils.c
+		utils.c \
+		cmd_utils.c \
+		ft_split.c
 
 OBJS = $(SRCS:.c=.o)
 
