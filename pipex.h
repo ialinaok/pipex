@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialinaok <ialinaok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: apielasz <apielasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 16:09:34 by apielasz          #+#    #+#             */
-/*   Updated: 2022/07/04 15:16:06 by ialinaok         ###   ########.fr       */
+/*   Updated: 2022/07/04 22:16:10 by apielasz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ void	free_it_all(t_ppx *ppx);
 void	open_files(t_ppx *ppx, char **argv);
 
 /* utils.c */
-void	ft_putstr_stdout(char *str);
-void	ft_putnbr_stdout(int n);
+void	ft_putstr_stderr(char *str);
+void	ft_putnbr_stderr(int n);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_strlen(const char *s);
 int		ft_strlcpy(char *dst, const char *src, int dst_size);
