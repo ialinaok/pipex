@@ -6,7 +6,7 @@
 /*   By: ialinaok <ialinaok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:33:15 by apielasz          #+#    #+#             */
-/*   Updated: 2022/07/02 17:30:31 by ialinaok         ###   ########.fr       */
+/*   Updated: 2022/07/04 15:38:47 by ialinaok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	split_path_var(t_ppx *ppx)
 	ppx->split_paths = ft_split(&ppx->envp[i][5], ':');
 }
 
+
 char	*get_cmd_path(char *argv, t_ppx *ppx)
 {
 	char	**cmd;
@@ -75,4 +76,19 @@ char	*get_cmd_path(char *argv, t_ppx *ppx)
 	}
 	free_from_split(cmd);
 	return(NULL);
+}
+
+char	*get_flags(char *argv)
+{
+	char	**argv_split;
+	char	*flags;
+	char	*temp;
+
+	argv_split = ft_split(argv, ' ');
+	temp = malloc(1 * sizeof(char));
+	temp[0] = '\0';
+	flags = ft_strjoin(temp, argv_split[1]);
+	free(temp);
+	free_from_split(argv_split);
+	return (flags);
 }

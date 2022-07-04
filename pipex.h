@@ -6,7 +6,7 @@
 /*   By: ialinaok <ialinaok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 16:09:34 by apielasz          #+#    #+#             */
-/*   Updated: 2022/07/02 22:37:16 by ialinaok         ###   ########.fr       */
+/*   Updated: 2022/07/04 15:16:06 by ialinaok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ typedef struct s_ppx
 {
 	char	*cmd1_path;
 	char	*cmd2_path;
-	char	**cmd_flags;
+	char	*cmd1_flags;
+	char	*cmd2_flags;
 	char	**envp;
 	char	**split_paths;
 	int		infile;
@@ -47,6 +48,7 @@ int		ft_strlcpy(char *dst, const char *src, int dst_size);
 char	*ft_strjoin(char const *s1, char const *s2);
 void	split_path_var(t_ppx *ppx);
 char	*get_cmd_path(char *argv, t_ppx *ppx);
+char	*get_flags(char *argv);
 
 /* ft_split.c */
 char	*ft_substr(char const *s, unsigned int start, size_t len);
