@@ -6,7 +6,7 @@
 /*   By: apielasz <apielasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 16:09:14 by apielasz          #+#    #+#             */
-/*   Updated: 2022/07/05 22:11:55 by apielasz         ###   ########.fr       */
+/*   Updated: 2022/07/05 22:36:47 by apielasz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,8 @@ void	run_first_command(char **argv, t_ppx *ppx)
 	else
 	{
 		close(fd[1]);
-		
+		dup2(fd[0], 0);
+		close(fd[0]);
 	}
 }
 
@@ -130,6 +131,14 @@ int	main(int argc, char **argv, char **envp)
 	ppx.envp = envp;
 	split_path_var(&ppx);
 	run_first_cmd(argv, ppx);
+	i = 3;
+	while (i < argc - 2)
+	{
+		ppx.cmd_path = get_cmd_path(argv[i], &ppx);
+		ppx.cmd_flags = get_flags(argv[i]);
+		make_clone(argv[i], &ppx);
+		i++;
+	}
 }
 
 // int	main(int argc, char **argv, char **envp)
@@ -146,10 +155,10 @@ int	main(int argc, char **argv, char **envp)
 // 	i = 2;
 // 	while (i < argc - 2)
 // 	{
-// 		ppx.cmd_path = get_cmd_path(argv[i], &ppx);
-// 		ppx.cmd_flags = get_flags(argv[i]);
-// 		make_clone(argv[i], &ppx);
-// 		i++;
+		ppx.cmd_path = get_cmd_path(argv[i], &ppx);
+		ppx.cmd_flags = get_flags(argv[i]);
+		make_clone(argv[i], &ppx);
+		i++;
 // 	}
 // 	printf("argv[i]: %s\n", argv[i]);
 // 	ppx.cmd_path = get_cmd_path(argv[i], &ppx);
