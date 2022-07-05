@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialinaok <ialinaok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: apielasz <apielasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:33:15 by apielasz          #+#    #+#             */
-/*   Updated: 2022/07/04 15:38:47 by ialinaok         ###   ########.fr       */
+/*   Updated: 2022/07/05 18:56:23 by apielasz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	split_path_var(t_ppx *ppx)
 	ppx->split_paths = ft_split(&ppx->envp[i][5], ':');
 }
 
-
 char	*get_cmd_path(char *argv, t_ppx *ppx)
 {
 	char	**cmd;
@@ -81,14 +80,14 @@ char	*get_cmd_path(char *argv, t_ppx *ppx)
 char	*get_flags(char *argv)
 {
 	char	**argv_split;
-	char	*flags;
-	char	*temp;
+	char	**flags;
+	int		i;
 
+	i = 0;
 	argv_split = ft_split(argv, ' ');
-	temp = malloc(1 * sizeof(char));
-	temp[0] = '\0';
-	flags = ft_strjoin(temp, argv_split[1]);
-	free(temp);
+	while (argv_split[i] != NULL)
+		i++;
+	flags = malloc((i + 1) * sizeof(char *));
 	free_from_split(argv_split);
 	return (flags);
 }

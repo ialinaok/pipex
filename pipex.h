@@ -6,7 +6,7 @@
 /*   By: apielasz <apielasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 16:09:34 by apielasz          #+#    #+#             */
-/*   Updated: 2022/07/04 22:16:10 by apielasz         ###   ########.fr       */
+/*   Updated: 2022/07/05 18:25:20 by apielasz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,8 @@
 
 typedef struct s_ppx
 {
-	char	*cmd1_path;
-	char	*cmd2_path;
-	char	*cmd1_flags;
-	char	*cmd2_flags;
+	char	*cmd_path;
+	char	*cmd_flags;
 	char	**envp;
 	char	**split_paths;
 	int		infile;
@@ -36,6 +34,7 @@ void	show_error_msg(int argc);
 void	free_from_split(char **split_ret);
 void	free_it_all(t_ppx *ppx);
 void	open_files(t_ppx *ppx, char **argv);
+void	alternate_reality(int infile, int outfile);
 
 /* utils.c */
 void	ft_putstr_stderr(char *str);

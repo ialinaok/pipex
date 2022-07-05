@@ -6,7 +6,7 @@
 /*   By: apielasz <apielasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 16:09:14 by apielasz          #+#    #+#             */
-/*   Updated: 2022/07/04 22:23:09 by apielasz         ###   ########.fr       */
+/*   Updated: 2022/07/05 18:41:46 by apielasz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,6 @@ void	free_from_split(char **split_ret)
 	free(split_ret);
 }
 
-void	free_it_all(t_ppx *ppx)
-{
-	free(ppx->cmd1_path);
-	free(ppx->cmd2_path);
-	free(ppx->cmd1_flags);
-	free(ppx->cmd2_flags);
-	free_from_split(ppx->split_paths);
-}
-
 void	open_files(t_ppx *ppx, char **argv)
 {
 	ppx->infile = open(argv[1], O_RDONLY);
@@ -59,44 +50,64 @@ void	open_files(t_ppx *ppx, char **argv)
 		show_error("open() failed.\n");
 }
 
-void	alternate_reality(t_ppx *ppx)
+void	alternate_reality(int infile, int outfile)
 {
-	if (dup2(ppx->infile, 0) == -1)
+	if (dup2(infile, 0) == -1)
 		show_error("dup2() failed.\n");
-	if (dup2(ppx->outfile, 1) == -1)
+	if (dup2(outfile, 1) == -1)
 		show_error("dup2() failed.\n");
 }
 
+void	make_clones(char *cmd, t_ppx *ppx)
+{
+	int		fd[2];
+	pid_t	id;
+
+	if (pipe(fd) == -1)
+		show_error("pipe() failed.\n");
+	id = fork();
+	if (id == -1)
+		show_error("fork() failed.\n");
+	if (pid == 0)
+	{
+		if (dup2(fd[1], 1) == -1)
+			show_error("dup2() in pipe failed.\n");
+		close(fd[0]);
+		execve(ppx->cmd_path, ppx->cmd_flags, ppx->envp);
+		free(ppx->cmd_path);
+		free(ppx->cmd_flags);
+		free_from_split(ppx->split_paths);
+		show_error("execve() failed.\n");
+	}
+	else
+	{
+		dup2(fd[0], 0);
+	}
+}
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_ppx	ppx;
 	int		fd[2];
+	int		i;
 	
 	if (argc != 5)
 		show_input_error_msg(argc);
 	ppx.envp = envp;
-	if (pipe(fd) == -1)
-		(show_error("pipe() failed.\n"));
 	open_files(&ppx, argv);
-	alternate_reality(&ppx);
-	
+	alternate_reality(ppx.infile, ppx.outfile);
 	split_path_var(&ppx);
-	ppx.cmd1_path = get_cmd_path(argv[2], &ppx);
-	ppx.cmd2_path = get_cmd_path(argv[3], &ppx);
-	if (ppx.cmd1_path == NULL || ppx.cmd2_path == NULL)
-		exit(0);
-	// printf("cmd1 path: %s\n", ppx.cmd1_path);
-	// printf("cmd2 path: %s\n", ppx.cmd2_path);
-	ppx.cmd1_flags = get_flags(argv[2]);
-	printf("the flags: %s\n", ppx.cmd1_flags);
-	ppx.cmd2_flags = get_flags(argv[3]);
-	printf("the flags: %s\n", ppx.cmd2_flags);
-	// int din = dup2(ppx.infile, 0);
-	// int dout = dup2(ppx.outfile, 1);
-	// make_clone(&ppx);
-	execve(ppx.cmd2_path, ppx.cmd2_flags, envp);
-	free_it_all(&ppx);
-} 
+	i = 2;
+	while (i < argc - 2)
+	{
+		ppx.cmd_path = get_cmd_path(argv[i], &ppx);
+		ppx.cmd_flags = get_flags(argv[i]);
+		make_clone(argv[i], &ppx);
+		i++;
+	}
+	ppx.cmd_path = get_cmd_path(argv[i], &ppx);
+	ppx.cmd_flags = get_flags(argv[i]);
+
+}
 
 // define macros for stdin and out
