@@ -6,7 +6,7 @@
 /*   By: apielasz <apielasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:33:15 by apielasz          #+#    #+#             */
-/*   Updated: 2022/07/05 18:56:23 by apielasz         ###   ########.fr       */
+/*   Updated: 2022/07/05 20:38:31 by apielasz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,17 +77,26 @@ char	*get_cmd_path(char *argv, t_ppx *ppx)
 	return(NULL);
 }
 
-char	*get_flags(char *argv)
+char	**get_flags(char *argv)
 {
 	char	**argv_split;
 	char	**flags;
 	int		i;
+	int		j;
 
 	i = 0;
 	argv_split = ft_split(argv, ' ');
 	while (argv_split[i] != NULL)
 		i++;
 	flags = malloc((i + 1) * sizeof(char *));
-	free_from_split(argv_split);
+	i = 1;
+	j = 0;
+	while (argv_split[i] != NULL)
+	{
+		flags[j] = argv_split[i];
+		j++;
+		i++;
+	}
+	flags[j] = NULL;
 	return (flags);
 }
