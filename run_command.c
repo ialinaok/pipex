@@ -6,7 +6,7 @@
 /*   By: apielasz <apielasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 13:18:10 by apielasz          #+#    #+#             */
-/*   Updated: 2022/07/06 20:06:23 by apielasz         ###   ########.fr       */
+/*   Updated: 2022/07/06 22:49:02 by apielasz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ void	run_last_command(int argc, char **argv, t_ppx *ppx)
 	id = fork();
 	if (id == -1)
 		show_error("last fork() failed.\n");
+	// if (id > 0)
+	// 	waitpid(id, NULL, 0);
 	if (id == 0)
 	{
 		ppx->outfile = open(argv[argc - 1], O_WRONLY | O_CREAT, 0777);
@@ -99,9 +101,17 @@ void	run_last_command(int argc, char **argv, t_ppx *ppx)
 		// if (ppx->cmd_path == NULL)
 		// 	return ;
 		execve(ppx->cmd_path, ppx->split_cmd, ppx->envp);
+		ppx->exec_status = -1;
+	printf("final pls: %s\n", ppx->split_cmd[0]);
 		free(ppx->cmd_path);
 		free_from_split(ppx->split_cmd);
 		free_from_split(ppx->split_paths);
 		show_error("execve() last cmd failed.\n");
+	}
+	else if (id > 0)
+	{
+		wait(0);
+		if (ppx->exec_status == -1)
+			printf("gothca...?\n");
 	}
 }

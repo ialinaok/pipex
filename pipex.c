@@ -6,7 +6,7 @@
 /*   By: apielasz <apielasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 16:09:14 by apielasz          #+#    #+#             */
-/*   Updated: 2022/07/06 19:02:13 by apielasz         ###   ########.fr       */
+/*   Updated: 2022/07/06 22:48:48 by apielasz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	show_input_error_msg(int argc)
 {
 	ft_putstr_stderr("Error - incorrect number of args for the program. ");
-	ft_putstr_stderr("Expected 4 but have ");
+	ft_putstr_stderr("Expected at least 4 but have ");
 	ft_putnbr_stderr(argc - 1);
 	write(1, ".\n", 2);
 	exit(EXIT_FAILURE);
@@ -48,6 +48,7 @@ int	main(int argc, char **argv, char **envp)
 	if (argc < 5)
 		show_input_error_msg(argc);
 	ppx.envp = envp;
+	ppx.exec_status = 0;
 	split_path_var(&ppx);
 	run_first_command(argv, &ppx);
 	i = 3;
@@ -59,9 +60,14 @@ int	main(int argc, char **argv, char **envp)
 		if (ppx.cmd_path == NULL)
 			return (1);
 		run_piped_command(&ppx);
+		free(ppx.cmd_path);
 		i++;
 	}
 	run_last_command(argc, argv, &ppx);
+	printf("here\n");
+	free_from_split(ppx.split_paths);
+	// printf("final pls: %s\n", ppx.split_cmd[0]);
+	// free_from_split(ppx.split_cmd);
 	return (0);
 }
 

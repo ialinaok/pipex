@@ -6,7 +6,7 @@
 /*   By: apielasz <apielasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 16:09:34 by apielasz          #+#    #+#             */
-/*   Updated: 2022/07/06 17:34:43 by apielasz         ###   ########.fr       */
+/*   Updated: 2022/07/06 22:39:26 by apielasz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
-
+# include <sys/wait.h>
 
 typedef struct s_ppx
 {
@@ -27,6 +27,7 @@ typedef struct s_ppx
 	char	**split_paths;
 	int		infile;
 	int		outfile;
+	int		exec_status;
 }				t_ppx;
 
 /* pipex.c */
