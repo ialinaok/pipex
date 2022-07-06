@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ialinaok <ialinaok@student.42.fr>          +#+  +:+       +#+         #
+#    By: apielasz <apielasz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/30 16:09:41 by apielasz          #+#    #+#              #
-#    Updated: 2022/07/02 22:49:22 by ialinaok         ###   ########.fr        #
+#    Updated: 2022/07/06 14:51:35 by apielasz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,10 @@ CC = gcc
 CFLAGS = -Wall -Wextra #-Werror
 SRCS = pipex.c \
 		utils.c \
-		cmd_utils.c \
-		ft_split.c
+		utils_more.c \
+		utils_command.c \
+		ft_split.c \
+		run_command.c
 
 OBJS = $(SRCS:.c=.o)
 

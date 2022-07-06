@@ -6,32 +6,11 @@
 /*   By: apielasz <apielasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 23:14:20 by apielasz          #+#    #+#             */
-/*   Updated: 2022/07/01 01:05:28 by apielasz         ###   ########.fr       */
+/*   Updated: 2022/07/06 14:49:09 by apielasz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	char	*substr;
-	size_t	slen;
-
-	if (!s)
-		return (NULL);
-	slen = ft_strlen(s);
-	if (slen < len)
-		substr = (char *) malloc(slen + 1);
-	else
-		substr = (char *) malloc(len + 1);
-	if (!substr)
-		return (NULL);
-	if (slen >= start)
-		ft_strlcpy(substr, &s[start], len + 1);
-	else
-		substr[0] = '\0';
-	return (substr);
-}
 
 int	count_strings(const char *s, char c)
 {
