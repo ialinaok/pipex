@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_utils.c                                        :+:      :+:    :+:   */
+/*   utils_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apielasz <apielasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:33:15 by apielasz          #+#    #+#             */
-/*   Updated: 2022/07/06 14:48:47 by apielasz         ###   ########.fr       */
+/*   Updated: 2022/07/06 20:11:16 by apielasz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,50 +28,41 @@ void	split_path_var(t_ppx *ppx)
 
 char	*get_cmd_path(char *argv, t_ppx *ppx)
 {
-	char	**cmd;
 	char	*add_slash;
 	char	*cmd_path;
 	int		i;
 
-	cmd = ft_split(argv, ' ');
+	ppx->split_cmd = ft_split(argv, ' ');
 	i = 0;
 	while (ppx->split_paths[i] != NULL)
 	{
 		add_slash = ft_strjoin(ppx->split_paths[i], "/");
-		cmd_path = ft_strjoin(add_slash, cmd[0]);
+		cmd_path = ft_strjoin(add_slash, ppx->split_cmd[0]);
 		free(add_slash);
 		if (access(cmd_path, X_OK) == 0)
-		{
-			free_from_split(cmd);
 			return(cmd_path);
-		}
 		i++;
 		free(cmd_path);
 	}
-	free_from_split(cmd);
 	return(NULL);
 }
 
-char	**get_flags(char *argv)
+char	*get_cmd_path(char *argv, t_ppx *ppx)
 {
-	char	**argv_split;
-	char	**flags;
+	char	*add_slash;
+	char	*cmd_path;
 	int		i;
-	int		j;
 
+	ppx->split_cmd = ft_split(argv, ' ');
 	i = 0;
-	argv_split = ft_split(argv, ' ');
-	while (argv_split[i] != NULL)
-		i++;
-	flags = malloc((i + 1) * sizeof(char *));
-	i = 1;
-	j = 0;
-	while (argv_split[i] != NULL)
+	while (ppx->split_paths[i] != NULL)
 	{
-		flags[j] = argv_split[i];
-		j++;
+		add_slash = ft_strjoin(ppx->split_paths[i], "/");
+		cmd_path = ft_strjoin(add_slash, ppx->split_cmd[0]);
+		free(add_slash);
+		execve(cmd_path, ppx->split_cmd, ppx->envp);
 		i++;
+		free(cmd_path);
 	}
-	flags[j] = NULL;
-	return (flags);
+	return(NULL);
 }

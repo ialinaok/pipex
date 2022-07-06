@@ -6,7 +6,7 @@
 /*   By: apielasz <apielasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 16:09:14 by apielasz          #+#    #+#             */
-/*   Updated: 2022/07/06 14:54:07 by apielasz         ###   ########.fr       */
+/*   Updated: 2022/07/06 19:02:13 by apielasz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,11 @@ int	main(int argc, char **argv, char **envp)
 	i = 3;
 	while (i < argc - 2)
 	{
+		if (argv[i] == NULL)
+			return (1);
 		ppx.cmd_path = get_cmd_path(argv[i], &ppx);
-		ppx.cmd_flags = get_flags(argv[i]);
+		if (ppx.cmd_path == NULL)
+			return (1);
 		run_piped_command(&ppx);
 		i++;
 	}
@@ -62,8 +65,33 @@ int	main(int argc, char **argv, char **envp)
 	return (0);
 }
 
-
 // CODE GRAVEYARD
+
+// char	**get_flags(char *argv)
+// {
+// 	char	**argv_split;
+// 	char	**flags;
+// 	int		i;
+// 	int		j;
+
+// 	i = 0;
+// 	argv_split = ft_split(argv, ' ');
+// 	while (argv_split[i] != NULL)
+// 		i++;
+// 	flags = malloc((i + 1) * sizeof(char *));
+// 	if (!flags)
+// 		return (NULL);
+// 	i = 1;
+// 	j = 0;
+// 	while (argv_split[i] != NULL)
+// 	{
+// 		flags[j] = argv_split[i];
+// 		j++;
+// 		i++;
+// 	}
+// 	flags[j] = NULL;
+// 	return (flags);
+// }
 
 // int	main(int argc, char **argv, char **envp)
 // {
