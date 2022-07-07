@@ -6,7 +6,7 @@
 /*   By: apielasz <apielasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 13:18:10 by apielasz          #+#    #+#             */
-/*   Updated: 2022/07/06 22:49:02 by apielasz         ###   ########.fr       */
+/*   Updated: 2022/07/07 16:57:10 by apielasz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ void	run_first_command(char **argv, t_ppx *ppx)
 		if (dup2(fd[1], 1) == -1)
 			show_error("dup2() in first cmd failed. pipe fd.\n");
 		ppx->cmd_path = get_cmd_path(argv[2], ppx);
-		if (ppx->cmd_path == NULL)
-			return ;
 		printf("getting thereeee: %s\n", ppx->cmd_path);
 		execve(ppx->cmd_path, ppx->split_cmd, ppx->envp);
 		free(ppx->cmd_path);
@@ -51,7 +49,7 @@ void	run_first_command(char **argv, t_ppx *ppx)
 	}
 }
 
-void	run_piped_command(t_ppx *ppx)
+void	run_piped_command(char *cmd, t_ppx *ppx)
 {
 	int		fd[2];
 	pid_t	id;
@@ -66,6 +64,7 @@ void	run_piped_command(t_ppx *ppx)
 		if (dup2(fd[1], 1) == -1)
 			show_error("dup2() in pipe failed.\n");
 		close(fd[0]);
+		ppx->cmd_path = get_cmd_path(cmd, ppx);
 		execve(ppx->cmd_path, ppx->split_cmd, ppx->envp);
 		free(ppx->cmd_path);
 		free_from_split(ppx->split_cmd);
@@ -98,20 +97,12 @@ void	run_last_command(int argc, char **argv, t_ppx *ppx)
 			show_error("dup2() last cmd failed.\n");
 		close(ppx->outfile);
 		ppx->cmd_path = get_cmd_path(argv[argc - 2], ppx);
-		// if (ppx->cmd_path == NULL)
-		// 	return ;
 		execve(ppx->cmd_path, ppx->split_cmd, ppx->envp);
 		ppx->exec_status = -1;
-	printf("final pls: %s\n", ppx->split_cmd[0]);
 		free(ppx->cmd_path);
 		free_from_split(ppx->split_cmd);
 		free_from_split(ppx->split_paths);
 		show_error("execve() last cmd failed.\n");
-	}
-	else if (id > 0)
-	{
-		wait(0);
-		if (ppx->exec_status == -1)
-			printf("gothca...?\n");
+		exit(0);
 	}
 }

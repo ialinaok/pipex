@@ -6,7 +6,7 @@
 /*   By: apielasz <apielasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 16:09:14 by apielasz          #+#    #+#             */
-/*   Updated: 2022/07/06 22:48:48 by apielasz         ###   ########.fr       */
+/*   Updated: 2022/07/07 17:32:05 by apielasz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,18 +56,11 @@ int	main(int argc, char **argv, char **envp)
 	{
 		if (argv[i] == NULL)
 			return (1);
-		ppx.cmd_path = get_cmd_path(argv[i], &ppx);
-		if (ppx.cmd_path == NULL)
-			return (1);
-		run_piped_command(&ppx);
-		free(ppx.cmd_path);
+		run_piped_command(argv[i], &ppx);
 		i++;
 	}
 	run_last_command(argc, argv, &ppx);
-	printf("here\n");
 	free_from_split(ppx.split_paths);
-	// printf("final pls: %s\n", ppx.split_cmd[0]);
-	// free_from_split(ppx.split_cmd);
 	return (0);
 }
 

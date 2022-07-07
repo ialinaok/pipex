@@ -6,7 +6,7 @@
 /*   By: apielasz <apielasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:33:15 by apielasz          #+#    #+#             */
-/*   Updated: 2022/07/06 20:11:16 by apielasz         ###   ########.fr       */
+/*   Updated: 2022/07/07 17:31:36 by apielasz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,8 @@ char	*get_cmd_path(char *argv, t_ppx *ppx)
 		i++;
 		free(cmd_path);
 	}
+	free_from_split(ppx->split_cmd);
+	free_from_split(ppx->split_paths);
+	show_error("command not found.\n");
 	return(NULL);
 }

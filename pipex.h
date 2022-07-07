@@ -6,7 +6,7 @@
 /*   By: apielasz <apielasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 16:09:34 by apielasz          #+#    #+#             */
-/*   Updated: 2022/07/06 22:39:26 by apielasz         ###   ########.fr       */
+/*   Updated: 2022/07/07 15:40:43 by apielasz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	**ft_split(char const *s, char c);
 
 /* run_commands.c */
 void	run_first_command(char **argv, t_ppx *ppx);
-void	run_piped_command(t_ppx *ppx);
+void	run_piped_command(char *cmd, t_ppx *ppx);
 void	run_last_command(int argc, char **argv, t_ppx *ppx);
 
 #endif
